@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./templejt.xhtml">
+
+            <ui:define name="top">
+                
+            </ui:define>
+
+            <ui:define name="content">
+                
+                <div class="bg">
+                <p:growl id="growl" showDetail="true"/>
+                <p:panel header="Unos zaposlenog" style="width: 100% ;">
+                <h:form id="unosZaposlenog"  >
+                    <h:panelGrid columns="2" style="width: 100%" cellpadding="5px" cellspacing="5px">    
+                        <h:outputLabel>Ime:</h:outputLabel>
+                        <h:inputText label="Ime:" value="#{zaposleniMB.zaposleni.ime}"></h:inputText>
+                       
+                        <h:outputLabel>Prezime:</h:outputLabel>
+                        <h:inputText label="prezime:" value="#{zaposleniMB.zaposleni.prezime}"></h:inputText>
+                        
+                        <h:outputLabel>Adresa:</h:outputLabel>
+                        <h:inputText label="Adresa:" value="#{zaposleniMB.zaposleni.adresa}"></h:inputText>
+                      
+                        <h:outputLabel>Titula:</h:outputLabel>
+                        <h:selectOneMenu id="cbTitula" value="#{zaposleniMB.zaposleni.sifraTitule}" converter="titulaKonverter">
+                            <f:selectItems value="#{titulaMB.vratiTitule()}" var="titula" itemValue="#{titula}" itemLabel="#{titula.toString()}" />
+                        </h:selectOneMenu>
+                        
+                        <h:outputLabel>Zvanje:</h:outputLabel>
+                        <h:selectOneMenu id="cbZvanje" value="#{zaposleniMB.zaposleni.sifraZvanja}" converter="zvanjeKonverter">
+                            <f:selectItems value="#{zvanjeMB.vratiZvanja()}" var="zvanje" itemValue="#{zvanje}" itemLabel="#{zvanje.toString()}" />
+                        </h:selectOneMenu>
+                        
+                        <h:outputLabel>Grad:</h:outputLabel>
+                        <h:selectOneMenu id="cbGrad" value="#{zaposleniMB.zaposleni.ptt}" converter="gradKonverter">
+                            <f:selectItems value="#{gradMB.vratiGradove()}" var="grad" itemValue="#{grad}" itemLabel="#{grad.toString()}" />
+                        </h:selectOneMenu>
+                                                                     
+                    </h:panelGrid>
+                    
+                    <p:commandButton value="Sačuvaj zaposlenog" action="#{zaposleniMB.sacuvaj()}"  update=":unosZaposlenog, :growl"></p:commandButton>
+                </h:form>
+                    </p:panel>
+                </div>
+                
+            </ui:define>
+
+            <ui:define name="bottom">
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

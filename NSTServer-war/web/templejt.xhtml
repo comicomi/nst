@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Završni rad app</title>
+    </h:head>
+
+    <h:body>
+
+        <div id="log">
+            <h:form>
+                <c:if test="#{loginBean.ulogovan}">
+                    <p:commandLink style="float:right; margin-right: 5px; margin-top: 7px; font-family: Arial, sans-serif;text-decoration: none; color: #4f4f4f; font-weight: bold; font-size: 13px;" value="Izloguj se" oncomplete="logoutDialog.show()" />
+
+                    <p:confirmDialog header="Log out" widgetVar="logoutDialog" message="Da li želite da se izlogujete?">
+                        <p:commandButton style="float:right;" value="Ne" oncomplete="logoutDialog.hide()" />
+                        <p:commandButton style="float:right;" value="Da" action="#{loginBean.logout()}" oncomplete="logoutDialog.hide()" />
+                    </p:confirmDialog>
+                </c:if>
+                <c:if test="#{!loginBean.ulogovan}">
+                    <p:commandLink style="float:right; margin-right: 5px; margin-top: 7px; font-family: Arial, sans-serif;text-decoration: none; color: #4f4f4f; font-weight: bold; font-size: 13px;" value="Uloguj se" oncomplete="loginDialog.show()" />
+
+                    <p:dialog widgetVar="loginDialog"  modal="true" showEffect="fade" header="Log in" resizable="false" style="font-size: 12px;">  
+                        <h:form id="login"> 
+                            <h:panelGrid columns="2" cellpadding="5">  
+                                <h:outputLabel for="username" value="Korisničko ime" />  
+                                <p:inputText style="width: 150px;" value="#{loginBean.zaposleni.korisnickoIme}"   
+                                             id="username" required="true" label="username" requiredMessage="Morate uneti korisničko ime!"/>  
+
+                                <h:outputLabel for="password" value="Korisnička šifra" />  
+                                <h:inputSecret style="width: 155px;" value="#{loginBean.zaposleni.korisnickaSifra}"   
+                                               id="password" required="true" label="password" requiredMessage="Morate uneti korisničku šifru!" />  
+
+                                <f:facet name="footer">  
+                                    <p:commandButton style="float: right;" id="loginButton" value="Uloguj se" update="growl"   
+                                                     actionListener="#{loginBean.login()}" ajax="false" /> 
+
+                                </f:facet>  
+                            </h:panelGrid>  
+                        </h:form>
+                    </p:dialog>  
+                </c:if>
+            </h:form>
+
+
+        </div> 
+
+
+
+        <div id="top">            
+        </div>
+
+
+        <div>
+            <div id="left">
+                <h:form>
+                    <p:growl id="growl" showDetail="true"/>
+                    <c:if test="#{loginBean.ulogovan}">
+                        <p:slideMenu backLabel="Nazad" style="width:210px; height: 150px">
+                            <p:submenu label="Rad sa kandidatima" icon="">
+                                <p:menuitem value="Unos kandidata"  url="./unosKandidata.xhtml" update="messages" />
+                            </p:submenu>
+                            <p:separator />
+                            <p:submenu label="Rad sa zaposlenima" icon="">
+                                <p:menuitem value="Unos zaposlenog"  url="./unosZaposlenog.xhtml" update="messages" />
+                            </p:submenu>
+                            <p:separator />
+                            <p:submenu label="Rad sa završnim radovima" style="height: 70px" icon="">                          
+                                <p:menuitem value="Unos završnog rada"  url="./unosZR.xhtml"  />
+                                <p:menuitem value="Prikaz završnih radova"   url="./prikazZR.xhtml" />                       
+                            </p:submenu>
+                        </p:slideMenu>
+                    </c:if>
+                </h:form>
+
+            </div>
+
+
+
+            <div>
+                <div id="right">
+                    <ui:insert name="right"></ui:insert>
+                </div>
+
+
+
+                <div id="content" class="right_content">
+                    <ui:insert name="content"></ui:insert>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <div id="bottom">
+            <p style="font-family: sans-serif; font-size: 14px; color: black; margin-left: 440px;">Copyright © 2015 "Faculty of organizational sciences" creative team. All rights reserved.</p>
+            <ui:insert name="bottom"></ui:insert>
+        </div> 
+
+    </h:body>
+
+</html>

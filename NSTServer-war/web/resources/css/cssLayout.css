@@ -1,0 +1,99 @@
+
+#top {
+    position: relative;
+    background-image: url('../images/logo.jpg');
+    color: white;
+    padding: 5px;
+    margin: 0px 10px 5px 0px;    
+    height: 150px;    
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+#log {
+    background-color: white;
+    height:30px;
+    margin-bottom: 3px;
+}
+
+#login input{
+    width: 500px; 
+}
+
+#bottom {
+    position: relative;
+    background-color: #c2dfef ;
+    padding: 5px;
+    margin: 10px 0px 0px 0px;
+}
+
+#content{
+    width:60%;
+    margin-left: 250px;
+    margin-right: 250px;
+    padding-right: 17px;
+    height: auto;
+    min-height: 200px;
+}
+
+#left {
+    float: left;
+    // background-color: #AFAFAF;
+    //   padding: 5px;
+    width:210px;
+}
+
+#right {
+    float: right;
+    background-color: white;
+    padding: 10px;
+    width:200px;
+    height: 450px;
+}
+
+.center_content {
+    position: relative;
+    background-color: darkorange;
+    padding: 5px;
+}
+
+.left_content {
+    // background-color: paleturquoise;
+    padding: 5px;
+    margin-left: 170px;
+}
+
+.right_content {
+  background: #b3dced; /* Old browsers */
+background: -moz-linear-gradient(left,  #b3dced 0%, #59c3e0 50%, #bce0ee 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right top, color-stop(0%,#b3dced), color-stop(50%,#59c3e0), color-stop(100%,#bce0ee)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(left,  #b3dced 0%,#59c3e0 50%,#bce0ee 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(left,  #b3dced 0%,#59c3e0 50%,#bce0ee 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(left,  #b3dced 0%,#59c3e0 50%,#bce0ee 100%); /* IE10+ */
+background: linear-gradient(to right,  #b3dced 0%,#59c3e0 50%,#bce0ee 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3dced', endColorstr='#bce0ee',GradientType=1 ); /* IE6-9 */
+padding: 10px;
+    margin: 0px 170px 0px 170px;
+}
+
+#top a:link, #top a:visited {
+    color: white;
+    font-weight : bold;
+    text-decoration: none;
+}
+
+#top a:link:hover, #top a:visited:hover  {
+    color: black;
+    font-weight : bold;
+    text-decoration : underline;
+}
+
+
+.ui-panel-titlebar{
+    height: 20px;  
+}
+
+
+
+
+

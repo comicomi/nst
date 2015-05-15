@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./templejt.xhtml">
+
+            <ui:define name="top">
+                top
+            </ui:define>
+
+            <ui:define name="content">
+
+
+                <h:form id="zradf">
+                    <h3 style="margin-top:0">Završni radovi</h3>
+                    <p:tree  id="zrtree"
+                             value="#{zrMB.cvorDiplomski}" 
+                             var="zrad"  
+                             orientation="horizontal" 
+                             selectionMode="single" selection="#{zrMB.tekuciCvor}" 
+                             >
+                        <p:ajax event="select"  update=":zrFF" listener="#{zrMB.onNodeSelect}"/>
+                        <p:treeNode>
+                            <h:outputText value="#{zrad}"/>
+
+                        </p:treeNode>
+                    </p:tree>   
+                    <p:tree id="zradtreemaster" 
+                            value="#{zrMB.cvorMaster}" 
+                            var="zrad"  
+                            orientation="horizontal"
+                            selectionMode="single" selection="#{zrMB.tekuciCvor}" 
+                            >
+                        <p:ajax event="select"  update=":zrFF" listener="#{zrMB.onNodeSelect}"/>
+                        <p:treeNode>
+                            <h:outputText value="#{zrad}" />
+                        </p:treeNode>
+                    </p:tree>  
+                    <p:tree id="zradtreeDoktorski" 
+                            value="#{zrMB.cvorDoktorski}" 
+                            var="zrad"  
+                            orientation="horizontal"
+                            selectionMode="single" selection="#{zrMB.tekuciCvor}"
+                            >
+                        <p:ajax event="select"  update=":zrFF" listener="#{zrMB.onNodeSelect}"/>
+                        <p:treeNode >
+                            <h:outputText value="#{zrad}" />
+                        </p:treeNode>
+                    </p:tree>   
+
+
+                </h:form>
+
+                <p:growl id="growl" showDetail="true"/>                
+
+                <p:dialog widgetVar="prikazZR" header="Prikaz završnog rada" modal="true">                                
+                    <h:form id="zrFF">
+                        <p:panelGrid styleClass="zrPG">
+                            <p:row  >
+                                <p:column colspan="2">
+                                    <h1> #{zrMB.zr.tema}</h1>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2"> 
+                                    <h3> #{zrMB.zr.sifraTipaZavrsnogRada.naziv} </h3>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column> 
+                                    <h:outputText value="#{zrMB.zr.brojIndexa.toString()}"></h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{zrMB.zr.datumOdbrane}" converter="datumKonverter"></h:outputText>
+                                </p:column>
+                            </p:row> 
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:panel header="Prilozi završnom radu">
+                                        <p:dataTable id="fajlovi" 
+                                                     scrollable="true" 
+                                                     style="height: 100px"
+                                                     value="#{zrMB.zr.fajlList}" 
+                                                     var="fajl"   
+                                                     rowKey="#{fajl.sifraFajla}"                                                  
+                                                     emptyMessage="Nema unetih fajlova">
+                                            <p:column  headerText="RB" width="5px">
+                                                #{fajl.rb}
+                                            </p:column>
+                                            <p:column   headerText="Naziv">
+                                                #{fajl.naziv}
+                                            </p:column> 
+                                            <p:column   headerText="Tip">
+                                                #{fajl.sifraTipaFajla.naziv}
+                                            </p:column>
+                                            <p:column   headerText="">
+                                                <p:commandLink ajax="false"  value="Preuzmi"  >
+                                                    <p:fileDownload value="#{zrMB.preuzmiFajl(fajl)}"></p:fileDownload>
+                                                </p:commandLink>
+                                            </p:column>
+
+                                            <f:facet name="footer">  
+                                            </f:facet>             
+                                        </p:dataTable>
+                                    </p:panel>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:panel header="Komisija na odbrani završnog rada">
+                                        <p:dataTable id="komisijat"  scrollable="true"  style="height: 100px"
+                                                     value="#{zrMB.zr.komisijaList}" 
+                                                     var="clan"
+                                                     emptyMessage="Komisija još nije uneta">
+
+                                            <p:column   headerText="Titula">
+                                                #{clan.zaposleni.sifraTitule.naziv}
+                                            </p:column> 
+                                            <p:column   headerText="Ime i prezime">
+                                                #{clan.zaposleni.toString()}
+                                            </p:column>
+                                            <p:column  headerText="Uloga" width="5px">
+                                                #{clan.sifraUloge.naziv}
+                                            </p:column>
+                                            <f:facet name="footer">  
+                                            </f:facet>             
+                                        </p:dataTable>
+                                    </p:panel>
+                                </p:column>
+                            </p:row>
+                            <c:if test="#{loginBean.ulogovan}">
+                                <p:row>
+                                    <p:column>
+                                        <p:commandButton value="Dodaj komisiju" id="dodkom" disabled="#{zrMB.zr.komisijaList.size()!=0}" onclick="komisija.show()"></p:commandButton>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton value="Izmeni komisiju" id="izmkom" disabled="#{zrMB.zr.komisijaList.size()==0}" action="#{komisijaMB.postaviKomisiju(zrMB.zr)}" update=":kom"></p:commandButton>
+                                    </p:column>
+                                </p:row>
+                            </c:if>
+                        </p:panelGrid>
+                    </h:form>
+                </p:dialog>
+                <c:if test="#{loginBean.ulogovan}">
+                    <p:dialog widgetVar="komisija" modal="true" header="Komisija" style="width: 50%!important;">
+                        <h:form id="kom" >
+                            <p:pickList id="komisijaPL" style="margin-left: 20%;"
+                                        value="#{komisijaMB.zaposleniPL}" 
+                                        var="zaposleni"  
+                                        itemLabel="#{zaposleni.toString()}" 
+                                        itemValue="#{zaposleni}"
+                                        converter="zaposleniKonverter" 
+                                        showCheckbox="true" >
+                                <f:facet name="Zaposleni"></f:facet>
+                                <f:facet name="Komisija"></f:facet>                        
+                            </p:pickList>
+                            <p:separator></p:separator>
+                            <p:commandButton value="Potvrdi" style="width: 48%; margin-left: 25%;" ajax="true" action="#{komisijaMB.ubaciZaposleneUKomisiju()}" update=":kom:komisijatab" ></p:commandButton>
+                            <p:separator></p:separator>
+                            <p:dataTable id="komisijatab"  scrollable="true"  style="min-height: 100px; height: auto"
+                                         value="#{komisijaMB.listaClanovaKomisije}" 
+                                         var="clan" 
+                                         emptyMessage="Komisija još nije uneta">
+
+
+                                <p:column   headerText="Titula">
+                                    #{clan.zaposleni.sifraTitule.naziv}
+                                </p:column> 
+                                <p:column   headerText="Ime i prezime">
+                                    #{clan.zaposleni.toString()}
+                                </p:column>
+                                <p:column  headerText="Uloga" width="5px">
+                                    <h:selectOneMenu id="cbUloge" value="#{clan.sifraUloge}"  required="true"  converter="ulogaKonverter">
+                                        <f:selectItems value="#{ulogaMB.vratiUloge()}" var="uloga" itemValue="#{uloga}" itemLabel="#{uloga.naziv}" />
+                                    </h:selectOneMenu>
+                                </p:column>
+                                <f:facet name="footer">  
+                                </f:facet>             
+                            </p:dataTable>
+
+                            <p:separator></p:separator>
+                            <p:commandButton value="Sačuvaj komisiju" style="width: 48%" ajax="true" action="#{komisijaMB.sacuvajKomisiju(zrMB.zr)}" update=":zrFF:komisijat, :zrFF:dodkom, :zrFF:izmkom, :growl" ></p:commandButton>
+                            <p:commandButton value="Odustani" style="width: 48%" ajax="true" onclick="komisija.hide()" ></p:commandButton>
+
+                        </h:form>
+                    </p:dialog>
+                </c:if>
+            </ui:define>
+
+            <ui:define name="bottom">
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./templejt.xhtml">
+
+            <ui:define name="top">
+                
+            </ui:define>
+
+            <ui:define name="content">
+                
+                <div class="bg">
+                <p:growl id="growl" showDetail="true"/>
+                <p:panel header="Unos kandidata" style="width: 100%;">
+                <h:form id="unosKandidata"  >
+                    <h:panelGrid columns="2" style="width: 100%" cellspacing="5px" cellpadding="5px">    
+                        <h:outputLabel>Broj indeksa:</h:outputLabel>
+                        <h:inputText label="Broj indexa:" value="#{kandidatMB.kandidat.brojIndexa}" validator="brojIndeksaValidator" style="#{ component.valid ? 'border-color:black;' : 'border-color:red;'}"></h:inputText>
+                       
+                        <h:outputLabel>Ime:</h:outputLabel>
+                        <h:inputText label="Ime:" value="#{kandidatMB.kandidat.ime}"></h:inputText>
+                        
+                        <h:outputLabel>Prezime:</h:outputLabel>
+                        <h:inputText label="Prezime:" value="#{kandidatMB.kandidat.prezime}"></h:inputText>
+                      
+                        <h:outputLabel>Pol:</h:outputLabel>
+                        <h:selectOneRadio value="#{kandidatMB.kandidat.pol}">
+                            <f:selectItem itemValue="false" itemLabel="Muško" />
+                            <f:selectItem itemValue="true"  itemLabel="Žensko" />
+                        </h:selectOneRadio>
+                        
+                        <h:outputLabel>Broj telefona:</h:outputLabel>
+                        <h:inputText label="Broj telefona:" value="#{kandidatMB.kandidat.brojTelefona}"></h:inputText>  
+                        
+                        <h:outputLabel>E-mail:</h:outputLabel>
+                        <h:inputText label="E-mail:" value="#{kandidatMB.kandidat.mejl}" validator="emailValidator" style="#{ component.valid ? 'border-color:black;' : 'border-color:red;'}"></h:inputText>
+                        
+                        <h:outputLabel>Adresa:</h:outputLabel>
+                        <h:inputText label="Adresa:" value="#{kandidatMB.kandidat.adresa}"></h:inputText>
+                        
+                        <h:outputLabel>Grad:</h:outputLabel>
+                        <h:selectOneMenu value="#{kandidatMB.kandidat.ptt}" converter="gradKonverter">
+                            <f:selectItems value="#{gradMB.vratiGradove()}" var="grad" itemValue="#{grad}" itemLabel="#{grad.toString()}" />
+                        </h:selectOneMenu>
+                    </h:panelGrid>
+                       
+                    <p:commandButton value="Sačuvaj kandidata" action="#{kandidatMB.sacuvaj()}"  update=":unosKandidata, :growl"></p:commandButton>
+                </h:form>
+                    </p:panel>
+                </div>
+                
+            </ui:define>
+
+            <ui:define name="bottom">
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
